@@ -10,6 +10,102 @@ class BinaryTree {
     constructor() {
         this.root = null;
     }
+    insert(value) {
+        if (this.root === null) {
+            this.root = new Node(value);
+            return this.root;
+        } else {
+            let current = this.root;
+            while (true) {
+                if (value === current.data) return;
+                if (value < current.data) {
+                    if (current.left === null) {
+                        current.left = new Node(value);
+                        return current.left;
+                    }
+                    current = current.left;
+                } else {
+                    if (current.right === null) {
+                        current.right = new Node(value);
+                        return current.right;
+                    }
+                    current = current.right;
+                }
+            }
+        }
+    }
+    delete(value) {
+        if (this.root === null) return null;
+
+        let current = this.root;
+        let parent = null;
+
+        //find the node
+        while (current !== null && current.data !== value) {
+            parent = current;
+            if (value < current.data) {
+                current = current.left;
+            } else {
+                current = current.right;
+            }
+        }
+        if (current === null) return null;
+
+        //if the node is leaf node,set it's parent to null then remove it
+        if (current.left === null && current.right === null) {
+            if (current === this.root) {
+                this.root = null;
+            } else if (current === parent.left) {
+                parent.left = null;
+            } else {
+                parent.right = null;
+            }
+            return current;
+        }
+        //if node has one child, replace the node with its child
+        if (current.left === null) {
+            if (current === this.root) {
+                this.root = current.right;
+            } else if (current === parent.left) {
+                parent.left = current.right;
+            } else {
+                parent.right = current.right;
+            }
+            return current;
+        }
+        if (current.right === null) {
+            if (current === this.root) {
+                this.root = current.left;
+            } else if (current === parent.left) {
+                parent.left = current.left;
+            } else {
+                parent.right = current.left;
+            }
+            return current;
+        }
+        //if node has 2 children, replace the node with the smallest child then delete the smallest
+        let childParent = current;
+        let child = current.right;
+
+        while (child.left !== null) {
+            childParent.left = child.right;
+            child.right = current.right;
+        }
+        if (childParent !== current) {
+            childParent.left = child.right;
+            child.right = current.right;
+        }
+        if (current === this.root) {
+            this.root = child;
+        } else if (current === parent.left) {
+            parent.left = child;
+        } else {
+            parent.right = child;
+        }
+        child.left = current.left;
+
+        return current;
+    }
 }
 
 function buildTree(array, start = 0, end = 0) {
@@ -63,8 +159,14 @@ function prettyPrint(node, prefix = "", isLeft = true) {
 }
 
 const tree = new BinaryTree();
-let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+let arr = [1, 3, 5, 7, 9, 11, 13, 15, 17];
 console.log("this is the array ->" + arr);
 tree.root = buildTree(arr);
 console.log("hopefully this is the tree");
+tree.insert(-1);
+
+prettyPrint(tree.root);
+tree.delete(7);
+tree.delete(13);
+tree.delete(-1);
 prettyPrint(tree.root);
