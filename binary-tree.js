@@ -192,6 +192,17 @@ class BinaryTree {
             return this.depth(node, current.left, depth + 1);
         else return this.depth(node, current.right, depth + 1);
     }
+
+    isBalanced(node = this.root) {
+        if (!node) return true;
+
+        const leftHeight = this.height(node.left);
+        const rightHeight = this.height(node.right);
+
+        if (Math.abs(leftHeight - rightHeight) > 1) return false;
+
+        return this.isBalanced(node.left) && this.isBalanced(node.right);
+    }
 }
 
 function buildTree(array, start = 0, end = 0) {
@@ -276,3 +287,4 @@ const node2 = tree.find(11);
 const height = tree.height(node);
 console.log(height);
 console.log(tree.depth(node2));
+console.log(tree.isBalanced());
