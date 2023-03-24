@@ -181,7 +181,16 @@ class BinaryTree {
         let leftHeight = this.height(node.left);
         let rightHeight = this.height(node.right);
 
-        return Math.max(leftHeight, rightHeight) + 1; // plus one for node itself
+        return Math.max(leftHeight, rightHeight) + 1; // plus one for the node itself
+    }
+
+    depth(node, current = this.root, depth = 1) {
+        if (node === null) return null;
+        if (node === current) return depth;
+
+        if (node.data < current.data)
+            return this.depth(node, current.left, depth + 1);
+        else return this.depth(node, current.right, depth + 1);
     }
 }
 
@@ -263,5 +272,7 @@ prettyPrint(tree.root);
 // tree.preorder((result) => console.log(result));
 // tree.postorder((result) => console.log(result));
 const node = tree.find(9);
+const node2 = tree.find(11);
 const height = tree.height(node);
 console.log(height);
+console.log(tree.depth(node2));
