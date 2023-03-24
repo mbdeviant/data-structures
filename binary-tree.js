@@ -174,6 +174,15 @@ class BinaryTree {
 
         return result;
     }
+
+    height(node = this.root) {
+        if (node === null) return 0;
+
+        let leftHeight = this.height(node.left);
+        let rightHeight = this.height(node.right);
+
+        return Math.max(leftHeight, rightHeight) + 1; // plus one for node itself
+    }
 }
 
 function buildTree(array, start = 0, end = 0) {
@@ -253,3 +262,6 @@ prettyPrint(tree.root);
 // tree.inorder((result) => console.log(result));
 // tree.preorder((result) => console.log(result));
 // tree.postorder((result) => console.log(result));
+const node = tree.find(9);
+const height = tree.height(node);
+console.log(height);
