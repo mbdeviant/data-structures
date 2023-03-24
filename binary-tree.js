@@ -203,6 +203,11 @@ class BinaryTree {
 
         return this.isBalanced(node.left) && this.isBalanced(node.right);
     }
+
+    rebalance() {
+        this.root = buildTree(this.levelOrder());
+        return this.root;
+    }
 }
 
 function buildTree(array, start = 0, end = 0) {
