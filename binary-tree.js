@@ -205,7 +205,7 @@ class BinaryTree {
     }
 
     rebalance() {
-        this.root = buildTree(this.levelOrder());
+        this.root = buildTree(this.levelOrder(() => {}));
         return this.root;
     }
 }
@@ -264,32 +264,46 @@ function prettyPrint(node, prefix = "", isLeft = true) {
     }
 }
 
-const tree = new BinaryTree();
-let arr = [1, 3, 5, 7, 9, 11, 13, 15, 17];
-console.log("this is the array ->" + arr);
-tree.root = buildTree(arr);
-console.log("hopefully this is the tree");
-// tree.insert(-1);
+function getRandomArray(length, max) {
+    return Array.from({ length }, () => Math.floor(Math.random() * max));
+}
 
-// prettyPrint(tree.root);
-// tree.delete(7);
-// tree.delete(13);
-// tree.delete(-1);
-prettyPrint(tree.root);
-// const node = tree.find(9);
-// console.log(node.data);
-// console.log(node.left);
-// console.log(node.right);
-// tree.levelOrder((result) => {
-//     console.log(result);
-// });
+function execTree() {
+    const tree = new BinaryTree();
 
-// tree.inorder((result) => console.log(result));
-// tree.preorder((result) => console.log(result));
-// tree.postorder((result) => console.log(result));
-const node = tree.find(9);
-const node2 = tree.find(11);
-const height = tree.height(node);
-console.log(height);
-console.log(tree.depth(node2));
-console.log(tree.isBalanced());
+    let arr = getRandomArray(10, 100);
+    console.log("This is the array; " + arr);
+
+    tree.root = buildTree(arr);
+    console.log("And this is the tree;");
+    prettyPrint(tree.root);
+
+    console.log("Is tree balanced? " + tree.isBalanced());
+
+    console.log("Tree in level order; ");
+    tree.levelOrder((node) => console.log(node));
+
+    console.log("Tree in preorder; ");
+    tree.preorder((node) => console.log(node));
+
+    console.log("Tree in postorder; ");
+    tree.postorder((node) => console.log(node));
+
+    console.log("Tree in order; ");
+    tree.inorder((node) => console.log(node));
+
+    tree.insert(101);
+    tree.insert(141);
+    tree.insert(127);
+    tree.insert(154);
+    tree.insert(199);
+    tree.insert(1327);
+
+    prettyPrint(tree.root);
+    console.log("Is tree balanced? " + tree.isBalanced());
+    tree.rebalance();
+    console.log("Rebalanced tree; ");
+    prettyPrint(tree.root);
+    console.log("Is tree balanced? " + tree.isBalanced());
+}
+execTree();
