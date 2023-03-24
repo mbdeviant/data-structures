@@ -135,6 +135,45 @@ class BinaryTree {
 
         return result;
     }
+
+    // left,root,right
+    inorder(callback, node = this.root) {
+        const result = [];
+        if (!node) return result;
+
+        this.inorder(callback, node.left);
+        callback(node);
+        result.push(node.data);
+        this.inorder(callback, node.right);
+
+        return result;
+    }
+
+    // root,left,right
+    preorder(callback, node = this.root) {
+        const result = [];
+        if (!node) return result;
+
+        callback(node);
+        result.push(node.data);
+        this.preorder(callback, node.left);
+        this.preorder(callback, node.right);
+
+        return result;
+    }
+
+    // left,right,root
+    postorder(callback, node = this.root) {
+        const result = [];
+        if (!node) return result;
+
+        this.postorder(callback, node.left);
+        this.postorder(callback, node.right);
+        callback(node);
+        result.push(node.data);
+
+        return result;
+    }
 }
 
 function buildTree(array, start = 0, end = 0) {
@@ -196,17 +235,21 @@ let arr = [1, 3, 5, 7, 9, 11, 13, 15, 17];
 console.log("this is the array ->" + arr);
 tree.root = buildTree(arr);
 console.log("hopefully this is the tree");
-tree.insert(-1);
+// tree.insert(-1);
 
 // prettyPrint(tree.root);
-tree.delete(7);
-tree.delete(13);
-tree.delete(-1);
+// tree.delete(7);
+// tree.delete(13);
+// tree.delete(-1);
 prettyPrint(tree.root);
 // const node = tree.find(9);
 // console.log(node.data);
 // console.log(node.left);
 // console.log(node.right);
-tree.levelOrder((result) => {
-    console.log(result);
-});
+// tree.levelOrder((result) => {
+//     console.log(result);
+// });
+
+// tree.inorder((result) => console.log(result));
+// tree.preorder((result) => console.log(result));
+// tree.postorder((result) => console.log(result));
